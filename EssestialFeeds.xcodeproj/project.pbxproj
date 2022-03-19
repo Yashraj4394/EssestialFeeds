@@ -52,6 +52,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D405D6E27E5F97A000AD3F7 /* FeedFeature */ = {
+			isa = PBXGroup;
+			children = (
+				0D405D6C27E5F8B7000AD3F7 /* FeedLoader.swift */,
+				0D405D6827E5F6F4000AD3F7 /* FeedItem.swift */,
+			);
+			path = FeedFeature;
+			sourceTree = "<group>";
+		};
 		0D52576C26A5E35B00523931 = {
 			isa = PBXGroup;
 			children = (
@@ -73,10 +82,9 @@
 		0D52577826A5E35C00523931 /* EssestialFeeds */ = {
 			isa = PBXGroup;
 			children = (
-				0D405D6827E5F6F4000AD3F7 /* FeedItem.swift */,
 				0D405D6A27E5F8A1000AD3F7 /* Screenshot 2022-03-19 at 5.10.09 PM.png */,
 				0D52577A26A5E35C00523931 /* Info.plist */,
-				0D405D6C27E5F8B7000AD3F7 /* FeedLoader.swift */,
+				0D405D6E27E5F97A000AD3F7 /* FeedFeature */,
 			);
 			path = EssestialFeeds;
 			sourceTree = "<group>";
