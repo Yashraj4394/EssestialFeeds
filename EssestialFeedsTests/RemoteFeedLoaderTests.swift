@@ -11,30 +11,31 @@ class RemoteFeedLoaderTests: XCTestCase {
 	
 	func test_init_doesNotRequestDatFromURL(){ // asset that url should be nil unless load function is called from RemoteFeedLoader
 		let client = HTTPClientSpy()
-		HTTPClient.shared = client
-		let _ = RemoteFeedLoader()
+		let _ = RemoteFeedLoader(client: client)
 		XCTAssertNil(client.requestedURL)
 	}
 	
 	func test_load_requestDataFromURL(){
 		let client = HTTPClientSpy()
-		HTTPClient.shared = client
-		let sut = RemoteFeedLoader()
+		let sut = RemoteFeedLoader(client:client)
 		sut.load()
 		XCTAssertNotNil(client.requestedURL)
 	}
 }
 
 class RemoteFeedLoader {
+	let client : HTTPClient
+	init(client: HTTPClient) {
+		self.client = client
+	}
+	
 	func load(){
-		HTTPClient.shared.getFrom(from: URL(string: "https://www.a-url.com")!)
+		client.getFrom(from: URL(string: "https://www.a-url.com")!) //RemoteFeedLoader had two responsibilities i.e responsibility of locate httpclient and responsibility of invoking a method in a object 
 	}
 }
 
 //http client that is going to connect with the network
 class HTTPClient {
-	static var shared = HTTPClient() // making this var will result in making this class as a global state. This is not singleton anymore.
-	//removed private init as this class is not singleton anymore
 	
 	func getFrom(from url: URL) {}
 }
