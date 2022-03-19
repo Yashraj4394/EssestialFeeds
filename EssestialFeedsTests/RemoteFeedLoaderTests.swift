@@ -30,19 +30,20 @@ class RemoteFeedLoader {
 	}
 	
 	func load(){
-		client.getFrom(from: URL(string: "https://www.a-url.com")!) //RemoteFeedLoader had two responsibilities i.e responsibility of locate httpclient and responsibility of invoking a method in a object 
+		client.getFrom(from: URL(string: "https://www.a-url.com")!) //RemoteFeedLoader had two responsibilities i.e responsibility of locate httpclient and responsibility of invoking a method in a object
 	}
 }
 
 //http client that is going to connect with the network
-class HTTPClient {
+
+protocol HTTPClient {
 	
-	func getFrom(from url: URL) {}
+	func getFrom(from url: URL)
 }
 
 // created a new subclass so that it can be tested as HTTPClient will be part of production code and we dont want requeted url to be a part of it. Test logic is now in the spy
 class HTTPClientSpy: HTTPClient {
-	override func getFrom(from url: URL) {
+	func getFrom(from url: URL) {
 		requestedURL = url
 	}
 	var requestedURL: URL?
