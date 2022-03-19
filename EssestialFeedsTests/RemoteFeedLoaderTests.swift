@@ -11,26 +11,29 @@ class RemoteFeedLoaderTests: XCTestCase {
 	
 	func test_init_doesNotRequestDatFromURL(){ // asset that url should be nil unless load function is called from RemoteFeedLoader
 		let client = HTTPClientSpy()
-		let _ = RemoteFeedLoader(client: client)
+		let _ = RemoteFeedLoader(url: URL(string: "https://www.a-url.com")!, client: client)
 		XCTAssertNil(client.requestedURL)
 	}
 	
 	func test_load_requestDataFromURL(){
+		let url = URL(string: "https://www.a-new-url.com")!
 		let client = HTTPClientSpy()
-		let sut = RemoteFeedLoader(client:client)
+		let sut = RemoteFeedLoader(url: url, client: client)
 		sut.load()
-		XCTAssertNotNil(client.requestedURL)
+		XCTAssertEqual(client.requestedURL,url)
 	}
 }
 
 class RemoteFeedLoader {
 	let client : HTTPClient
-	init(client: HTTPClient) {
+	let url: URL
+	init(url: URL, client: HTTPClient) {
 		self.client = client
+		self.url = url
 	}
 	
 	func load(){
-		client.getFrom(from: URL(string: "https://www.a-url.com")!) //RemoteFeedLoader had two responsibilities i.e responsibility of locate httpclient and responsibility of invoking a method in a object
+		client.getFrom(from: url) //RemoteFeedLoader had two responsibilities i.e responsibility of locate httpclient and responsibility of invoking a method in a object
 	}
 }
 
