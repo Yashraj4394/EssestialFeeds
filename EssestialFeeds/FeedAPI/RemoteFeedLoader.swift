@@ -9,7 +9,7 @@ import Foundation
 
 public protocol HTTPClient {
 	
-	func getFrom(from url: URL)
+	func getFrom(from url: URL,completion: @escaping(Error) -> Void)
 }
 
 public final class RemoteFeedLoader {
@@ -18,12 +18,19 @@ public final class RemoteFeedLoader {
 	
 	private let client : HTTPClient
 	
+	public enum Error: Swift.Error {
+		case connectivity
+	}
+	
 	public init(url: URL, client: HTTPClient) {
 		self.client = client
 		self.url = url
 	}
 	
-	public func load(){
-		client.getFrom(from: url)
+	// "= { _ in}" means we gave a default closure
+	public func load(completion: @escaping (Error) -> Void = { _ in}){
+		client.getFrom(from: url) { error in
+			completion(.connectivity)
+		}
 	}
 }
