@@ -27,8 +27,7 @@ public final class RemoteFeedLoader {
 		self.url = url
 	}
 	
-	// "= { _ in}" means we gave a default closure
-	public func load(completion: @escaping (Error) -> Void = { _ in}){
+	public func load(completion: @escaping (Error) -> Void){
 		client.getFrom(from: url) { error in
 			completion(.connectivity)
 		}
