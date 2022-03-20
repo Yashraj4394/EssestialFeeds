@@ -35,6 +35,7 @@
 		0D52577F26A5E35C00523931 /* EssestialFeedsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssestialFeedsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D52578626A5E35C00523931 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0D63B61527E6D94100DC991B /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
+		0D63B61727E6DB1300DC991B /* Empty.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Empty.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +90,7 @@
 				0D63B61427E6D90900DC991B /* FeedAPI */,
 				0D405D6E27E5F97A000AD3F7 /* FeedFeature */,
 				0D405D6A27E5F8A1000AD3F7 /* Screenshot 2022-03-19 at 5.10.09 PM.png */,
+				0D63B61727E6DB1300DC991B /* Empty.md */,
 				0D52577A26A5E35C00523931 /* Info.plist */,
 			);
 			path = EssestialFeeds;
