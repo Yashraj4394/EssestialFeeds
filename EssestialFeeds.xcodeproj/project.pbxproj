@@ -14,6 +14,7 @@
 		0D52578026A5E35C00523931 /* EssestialFeeds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D52577626A5E35C00523931 /* EssestialFeeds.framework */; };
 		0D63B61627E6D94100DC991B /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63B61527E6D94100DC991B /* RemoteFeedLoader.swift */; };
 		0D63B61B27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D63B61A27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png */; };
+		0D63B61D27E8549200DC991B /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63B61C27E8549200DC991B /* HTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		0D63B61527E6D94100DC991B /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		0D63B61727E6DB1300DC991B /* Empty.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Empty.md; sourceTree = "<group>"; };
 		0D63B61A27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2022-03-20 at 12.41.17 PM.png"; sourceTree = "<group>"; };
+		0D63B61C27E8549200DC991B /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				0D63B61527E6D94100DC991B /* RemoteFeedLoader.swift */,
+				0D63B61C27E8549200DC991B /* HTTPClient.swift */,
 			);
 			path = FeedAPI;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			files = (
 				0D405D6D27E5F8B7000AD3F7 /* FeedLoader.swift in Sources */,
 				0D63B61627E6D94100DC991B /* RemoteFeedLoader.swift in Sources */,
+				0D63B61D27E8549200DC991B /* HTTPClient.swift in Sources */,
 				0D405D6927E5F6F4000AD3F7 /* FeedItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
