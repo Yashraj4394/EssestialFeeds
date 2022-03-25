@@ -20,7 +20,7 @@ class URLSessionHTTPClient {
 
 class URLSessionHTTPClientTests: XCTestCase {
 	
-	func test_(){
+	func test_getFromURL_createsDataTaskWithRURL(){
 		let url = URL(string: "https://www.a-url.com")!
 		let session = URLSessionSpy()
 		let sut = URLSessionHTTPClient(session: session)
