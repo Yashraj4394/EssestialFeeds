@@ -38,12 +38,9 @@ class URLSessionHTTPClientTests: XCTestCase {
 	}
 	
 	func test_getFromURL_performGETRequestWithURL(){
-	
-		let url = URL(string: "https://www.a-url.com")!
-		
 		let exp = expectation(description: "wait for completion")
 		URLProtocolStub.observeRequests { request in
-			XCTAssertEqual(request.url, url)
+			XCTAssertEqual(request.url, anyURL())
 			XCTAssertEqual(request.httpMethod, "GET")
 			
 			exp.fulfill()
@@ -57,7 +54,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 	
 	func test_getFromURL_failsOnRequestError(){
 		
-		let url = URL(string: "https://www.a-url.com")!
+	
 		let error = NSError(domain: "any error", code: 1)
 		
 		URLProtocolStub.stub(data: nil, response: nil, error: error)
@@ -65,7 +62,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 		//as getMethod is async, we have add expectation
 		let exp = expectation(description: "wait for completion")
 		
-		makeSUT().get(from : url) { result in
+		makeSUT().get(from : anyURL()) { result in
 			switch result {
 				case let .failure(receivedError as NSError):
 					XCTAssertEqual(receivedError.code, error.code)
@@ -86,6 +83,10 @@ class URLSessionHTTPClientTests: XCTestCase {
 		let sut = URLSessionHTTPClient()
 		trackForMemoryLeaks(sut, file: file, line: line)
 		return sut
+	}
+	
+	private func anyURL() -> URL {
+		let url = URL(string: "https://www.a-url.com")!
 	}
 	//class URLProtocol : NSObject : An abstract class that handles the loading of protocol-specific URL data.
 	private class URLProtocolStub: URLProtocol {
