@@ -29,13 +29,16 @@ class URLSessionHTTPClientTests: XCTestCase {
 	
 	func test_getFromURL_failsOnRequestError(){
 		URLProtocolStub.startInterceptingRequests()
+		
 		let url = URL(string: "https://www.a-url.com")!
 		let error = NSError(domain: "any error", code: 1)
-		URLProtocolStub.stub(url:url,error:error)
+		
+		URLProtocolStub.stub(url: url, data: nil, response: nil, error: error)
 		
 		let sut = URLSessionHTTPClient()
 			//as getMethod is async, we have add expectation
 		let exp = expectation(description: "wait for completion")
+		
 		sut.get(from : url) { result in
 			switch result {
 				case let .failure(receivedError as NSError):
@@ -46,6 +49,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 			}
 			exp.fulfill()
 		}
+		
 		wait(for: [exp], timeout: 1.0)
 		URLProtocolStub.stopInterceptingRequests()
 	}
@@ -57,11 +61,14 @@ class URLSessionHTTPClientTests: XCTestCase {
 		private static var stubs = [URL:Stub]()
 		
 		private struct Stub {
+			let data: Data?
+			let response: URLResponse?
 			let error: Error?
+		
 		}
 		
-		static func stub(url: URL, error: Error?) {
-			stubs[url] = Stub(error: error)
+		static func stub(url: URL,data: Data?,response: URLResponse?, error: Error?) {
+			stubs[url] = Stub(data: data, response: response, error: error)
 		}
 		
 	
@@ -109,6 +116,15 @@ class URLSessionHTTPClientTests: XCTestCase {
 				//Client: The object the protocol uses to communicate with the URL loading system.
 				client?.urlProtocol(self, didFailWithError: error)
 			}
+			
+			if let data = stub.data {
+				client?.urlProtocol(self, didLoad: data)
+			}
+			
+			if let response = stub.response {
+				client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+			}
+			
 			client?.urlProtocolDidFinishLoading(self)
 			
 		}
