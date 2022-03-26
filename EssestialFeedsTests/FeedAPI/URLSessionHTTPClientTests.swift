@@ -62,6 +62,8 @@ class URLSessionHTTPClientTests: XCTestCase {
 		if let receivedError = receivedError as NSError? {
 			XCTAssertEqual(receivedError.code, requestError.code)
 			XCTAssertEqual(receivedError.domain, requestError.domain)
+		} else {
+			XCTFail("Not able to convert received error to NS Error")
 		}
 	}
 	
