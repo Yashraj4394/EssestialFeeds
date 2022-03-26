@@ -27,6 +27,25 @@ class URLSessionHTTPClient {
 
 class URLSessionHTTPClientTests: XCTestCase {
 	
+	func test_getFromURL_performGETRequestWithURL(){
+		URLProtocolStub.startInterceptingRequests()
+		let url = URL(string: "https://www.a-url.com")!
+		
+		let exp = expectation(description: "wait for completion")
+		URLProtocolStub.observeRequests { request in
+			XCTAssertEqual(request.url, url)
+			XCTAssertEqual(request.httpMethod, "GET")
+			
+			exp.fulfill()
+		}
+		
+		URLSessionHTTPClient().get(from: url) { _ in }
+		
+		wait(for: [exp], timeout: 1.0)
+		URLProtocolStub.stopInterceptingRequests()
+		
+	}
+	
 	func test_getFromURL_failsOnRequestError(){
 		URLProtocolStub.startInterceptingRequests()
 		
@@ -36,7 +55,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 		URLProtocolStub.stub(data: nil, response: nil, error: error)
 		
 		let sut = URLSessionHTTPClient()
-			//as getMethod is async, we have add expectation
+		//as getMethod is async, we have add expectation
 		let exp = expectation(description: "wait for completion")
 		
 		sut.get(from : url) { result in
@@ -53,25 +72,29 @@ class URLSessionHTTPClientTests: XCTestCase {
 		wait(for: [exp], timeout: 1.0)
 		URLProtocolStub.stopInterceptingRequests()
 	}
-
-
+	
+	
 	//MARK: - HELPERS
 	//class URLProtocol : NSObject : An abstract class that handles the loading of protocol-specific URL data.
 	private class URLProtocolStub: URLProtocol {
 		private static var stub : Stub?
 		
+		private static var requestObserver:((URLRequest)->Void)?
+		
 		private struct Stub {
 			let data: Data?
 			let response: URLResponse?
 			let error: Error?
-		
 		}
 		
 		static func stub(data: Data?,response: URLResponse?, error: Error?) {
 			stub = Stub(data: data, response: response, error: error)
 		}
 		
-	
+		static func observeRequests(observer:@escaping(URLRequest)->Void) {
+			requestObserver = observer
+		}
+		
 		static func startInterceptingRequests(){
 			URLProtocol.registerClass(URLProtocolStub.self)
 		}
@@ -79,19 +102,20 @@ class URLSessionHTTPClientTests: XCTestCase {
 		static func stopInterceptingRequests(){
 			URLProtocol.unregisterClass(URLProtocolStub.self)
 			stub = nil
+			requestObserver = nil
 		}
 		
 		/*
-				@method canInitWithRequest:
-				@abstract This method determines whether this protocol can handle
-				the given request.
-				@discussion A concrete subclass should inspect the given request and
-				determine whether or not the implementation can perform a load with
-				that request. This is an abstract method. Sublasses must provide an
-				implementation.
-				@param request A request to inspect.
-				@result YES if the protocol can handle the given request, NO if not.
-		*/
+		 @method canInitWithRequest:
+		 @abstract This method determines whether this protocol can handle
+		 the given request.
+		 @discussion A concrete subclass should inspect the given request and
+		 determine whether or not the implementation can perform a load with
+		 that request. This is an abstract method. Sublasses must provide an
+		 implementation.
+		 @param request A request to inspect.
+		 @result YES if the protocol can handle the given request, NO if not.
+		 */
 		
 		override class func canInit(with request: URLRequest) -> Bool {
 			
@@ -99,6 +123,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 		}
 		
 		override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+			requestObserver?(request)
 			return request
 		}
 		
@@ -128,13 +153,13 @@ class URLSessionHTTPClientTests: XCTestCase {
 		}
 		
 		/*
-				@method stopLoading
-				@abstract Stops protocol-specific loading of a request.
-				@discussion When this method is called, the protocol implementation
-				should end the work of loading a request. This could be in response
-				to a cancel operation, so protocol implementations must be able to
-				handle this call while a load is in progress.
-		*/
+		 @method stopLoading
+		 @abstract Stops protocol-specific loading of a request.
+		 @discussion When this method is called, the protocol implementation
+		 should end the work of loading a request. This could be in response
+		 to a cancel operation, so protocol implementations must be able to
+		 handle this call while a load is in progress.
+		 */
 		override func stopLoading() {}
 	}
 }
