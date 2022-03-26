@@ -15,10 +15,14 @@ class URLSessionHTTPClient {
 		self.session = session
 	}
 	
+	struct UnexpectedValuesRepresentation:Error {}
+	
 	func get(from url: URL,completion: @escaping(HTTPClientResult)->Void) {
 		session.dataTask(with: url) { _, _, error in
 			if let error = error {
 				completion(.failure(error))
+			} else {
+				completion(.failure(UnexpectedValuesRepresentation()))
 			}
 			
 		}.resume()
@@ -40,13 +44,13 @@ class URLSessionHTTPClientTests: XCTestCase {
 	func test_getFromURL_performGETRequestWithURL(){
 		let exp = expectation(description: "wait for completion")
 		URLProtocolStub.observeRequests { request in
-			XCTAssertEqual(request.url, anyURL())
+			XCTAssertEqual(request.url, self.anyURL())
 			XCTAssertEqual(request.httpMethod, "GET")
 			
 			exp.fulfill()
 		}
 		
-		makeSUT().get(from: url) { _ in }
+		makeSUT().get(from: anyURL()) { _ in }
 		
 		wait(for: [exp], timeout: 1.0)
 		
@@ -76,9 +80,27 @@ class URLSessionHTTPClientTests: XCTestCase {
 		wait(for: [exp], timeout: 1.0)
 	}
 	
+	func test_getFromURL_failsOnAllValues(){
+
+		URLProtocolStub.stub(data: nil, response: nil, error: nil)
+		
+		//as getMethod is async, we have add expectation
+		let exp = expectation(description: "wait for completion")
+		
+		makeSUT().get(from : anyURL()) { result in
+			switch result {
+				case .failure:
+					break
+				default:
+					XCTFail("Expected failure, but got \(result) instead")
+			}
+			exp.fulfill()
+		}
+		
+		wait(for: [exp], timeout: 1.0)
+	}
 	
 	//MARK: - HELPERS
-	
 	private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
 		let sut = URLSessionHTTPClient()
 		trackForMemoryLeaks(sut, file: file, line: line)
@@ -87,7 +109,9 @@ class URLSessionHTTPClientTests: XCTestCase {
 	
 	private func anyURL() -> URL {
 		let url = URL(string: "https://www.a-url.com")!
+		return url
 	}
+	
 	//class URLProtocol : NSObject : An abstract class that handles the loading of protocol-specific URL data.
 	private class URLProtocolStub: URLProtocol {
 		private static var stub : Stub?
