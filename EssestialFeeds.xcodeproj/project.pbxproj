@@ -18,6 +18,7 @@
 		0D63B61F27E854FD00DC991B /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63B61E27E854FD00DC991B /* FeedItemsMapper.swift */; };
 		0D63B62227ED973B00DC991B /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63B62127ED973B00DC991B /* URLSessionHTTPClientTests.swift */; };
 		0D63B62527EF65E400DC991B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63B62427EF65E400DC991B /* XCTestCase+MemoryLeakTracking.swift */; };
+		0DFC0F2B27F039D500BB4AA0 /* URLSessionTestPaths.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DFC0F2A27F039D500BB4AA0 /* URLSessionTestPaths.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		0D63B61E27E854FD00DC991B /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 		0D63B62127ED973B00DC991B /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		0D63B62427EF65E400DC991B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		0DFC0F2A27F039D500BB4AA0 /* URLSessionTestPaths.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = URLSessionTestPaths.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				0D405D6E27E5F97A000AD3F7 /* FeedFeature */,
 				0D405D6A27E5F8A1000AD3F7 /* Screenshot 2022-03-19 at 5.10.09 PM.png */,
 				0D63B61A27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png */,
+				0DFC0F2A27F039D500BB4AA0 /* URLSessionTestPaths.png */,
 				0D63B61727E6DB1300DC991B /* Empty.md */,
 				0D52577A26A5E35C00523931 /* Info.plist */,
 			);
@@ -236,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DFC0F2B27F039D500BB4AA0 /* URLSessionTestPaths.png in Resources */,
 				0D405D6B27E5F8A1000AD3F7 /* Screenshot 2022-03-19 at 5.10.09 PM.png in Resources */,
 				0D63B61B27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png in Resources */,
 			);
