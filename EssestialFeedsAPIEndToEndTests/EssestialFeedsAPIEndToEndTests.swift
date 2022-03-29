@@ -12,9 +12,9 @@ class EssestialFeedsAPIEndToEndTests: XCTestCase {
 	
 	func test_EndToEndTestServerGETFeedResult_matchesFixedTestAccountData(){
 		switch getFeedResult() {
+				
 			case .success(let items):
 				XCTAssertEqual(items.count, 8,"Expected 8 items in the test accoount feed")
-				
 				XCTAssertEqual(items[0], expectedItem(at: 0))
 				XCTAssertEqual(items[1], expectedItem(at: 1))
 				XCTAssertEqual(items[2], expectedItem(at: 2))
@@ -99,5 +99,4 @@ class EssestialFeedsAPIEndToEndTests: XCTestCase {
 		wait(for: [exp], timeout: 5.0)
 		return receivedResult
 	}
-
 }
