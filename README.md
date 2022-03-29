@@ -4,6 +4,8 @@
 
 ## Image Feed Feature Specs
 
+[![Build Status](https://app.travis-ci.com/Yashraj4394/EssestialFeeds.svg?branch=main)](https://app.travis-ci.com/Yashraj4394/EssestialFeeds)
+
 ### Story: Customer requests to see their image feed
 
 ### Narrative #1
