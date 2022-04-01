@@ -24,6 +24,7 @@
 		0DFC0F3627F1EBF600BB4AA0 /* EssestialFeeds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D52577626A5E35C00523931 /* EssestialFeeds.framework */; };
 		0DFC0F3C27F20E1900BB4AA0 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63B62427EF65E400DC991B /* XCTestCase+MemoryLeakTracking.swift */; };
 		0DFC0F3E27F49BC100BB4AA0 /* RaceCondition(Thread Sanitizer).png in Resources */ = {isa = PBXBuildFile; fileRef = 0DFC0F3D27F49BC100BB4AA0 /* RaceCondition(Thread Sanitizer).png */; };
+		0DFC0F4027F6CDB800BB4AA0 /* URLCacheRules.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DFC0F3F27F6CDB700BB4AA0 /* URLCacheRules.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		0DFC0F3227F1EBF600BB4AA0 /* EssestialFeedsAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssestialFeedsAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DFC0F3427F1EBF600BB4AA0 /* EssestialFeedsAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssestialFeedsAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		0DFC0F3D27F49BC100BB4AA0 /* RaceCondition(Thread Sanitizer).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RaceCondition(Thread Sanitizer).png"; sourceTree = "<group>"; };
+		0DFC0F3F27F6CDB700BB4AA0 /* URLCacheRules.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = URLCacheRules.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				0D63B61A27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png */,
 				0DFC0F2A27F039D500BB4AA0 /* URLSessionTestPaths.png */,
 				0DFC0F3D27F49BC100BB4AA0 /* RaceCondition(Thread Sanitizer).png */,
+				0DFC0F3F27F6CDB700BB4AA0 /* URLCacheRules.png */,
 				0D63B61727E6DB1300DC991B /* Empty.md */,
 				0D52577A26A5E35C00523931 /* Info.plist */,
 			);
@@ -300,6 +303,7 @@
 				0DFC0F3E27F49BC100BB4AA0 /* RaceCondition(Thread Sanitizer).png in Resources */,
 				0DFC0F2B27F039D500BB4AA0 /* URLSessionTestPaths.png in Resources */,
 				0D405D6B27E5F8A1000AD3F7 /* Screenshot 2022-03-19 at 5.10.09 PM.png in Resources */,
+				0DFC0F4027F6CDB800BB4AA0 /* URLCacheRules.png in Resources */,
 				0D63B61B27E70B1E00DC991B /* Screenshot 2022-03-20 at 12.41.17 PM.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

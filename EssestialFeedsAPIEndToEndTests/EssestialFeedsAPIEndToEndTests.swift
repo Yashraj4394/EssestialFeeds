@@ -82,7 +82,7 @@ class EssestialFeedsAPIEndToEndTests: XCTestCase {
 	
 	private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> LoadFeedResult? {
 		let testServerURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
-		let client = URLSessionHTTPClient()
+		let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
 		
 		var receivedResult : LoadFeedResult?
 		let loader = RemoteFeedLoader(url: testServerURL, client: client)
