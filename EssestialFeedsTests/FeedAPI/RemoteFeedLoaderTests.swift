@@ -8,7 +8,7 @@
 import XCTest
 import EssestialFeeds
 
-class RemoteFeedLoaderTests: XCTestCase {
+class LoadFeedFromRemoteUseCaseTests: XCTestCase {
 	
 	func test_init_doesNotRequestDatFromURL(){ // asset that url should be nil unless load function is called from RemoteFeedLoader
 		let (_, client) = makeSUT()
