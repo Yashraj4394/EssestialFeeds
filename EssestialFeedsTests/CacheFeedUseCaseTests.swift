@@ -29,11 +29,7 @@ class LocalFeedLoader {
 class FeedStore {
 	typealias DeletionCompletion = (Error?) -> Void
 	
-	var deleteCachedFeedCallCount = 0
-	
 	private var deletionCompletion = [DeletionCompletion]()
-	
-	var insertions = [(items: [FeedItem],timestamp:Date)]()
 	
 	enum ReceivedMessages: Equatable {
 		case deleteCachedFeed
@@ -43,7 +39,6 @@ class FeedStore {
 	private(set) var receivedMessages = [ReceivedMessages]()
 	
 	func deleteCacheFeed(completion: @escaping DeletionCompletion){
-		deleteCachedFeedCallCount += 1
 		deletionCompletion.append(completion)
 		receivedMessages.append(.deleteCachedFeed)
 	}
@@ -57,7 +52,6 @@ class FeedStore {
 	}
 	
 	func insert(_ items: [FeedItem],timestamp: Date) {
-		insertions.append((items,timestamp))
 		receivedMessages.append(.insert(items, timestamp))
 	}
 }
