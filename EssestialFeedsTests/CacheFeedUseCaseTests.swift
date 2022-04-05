@@ -35,9 +35,17 @@ class FeedStore {
 	
 	var insertions = [(items: [FeedItem],timestamp:Date)]()
 	
+	enum ReceivedMessages: Equatable {
+		case deleteCachedFeed
+		case insert([FeedItem],Date)
+	}
+	
+	private(set) var receivedMessages = [ReceivedMessages]()
+	
 	func deleteCacheFeed(completion: @escaping DeletionCompletion){
 		deleteCachedFeedCallCount += 1
 		deletionCompletion.append(completion)
+		receivedMessages.append(.deleteCachedFeed)
 	}
 	
 	func completeDeletion(with error:Error, at index: Int = 0) {
@@ -50,21 +58,23 @@ class FeedStore {
 	
 	func insert(_ items: [FeedItem],timestamp: Date) {
 		insertions.append((items,timestamp))
+		receivedMessages.append(.insert(items, timestamp))
 	}
 }
 
 class CacheFeedUseCaseTests: XCTestCase {
 	
-	func test_init_DoesNotDeleteCacheUponCreation() {
+	//does not delete cache upon creation
+	func test_init_DoesNotMessageStoreUponCreation() {
 		let (_,store) = makeSUT()
-		XCTAssertEqual(store.deleteCachedFeedCallCount, 0)
+		XCTAssertEqual(store.receivedMessages, [])
 	}
 	
 	func test_save_requestsCacheDeletion(){
 		let (sut,store) = makeSUT()
 		let items = [uniqueItems(),uniqueItems()]
 		sut.saveItems(items)
-		XCTAssertEqual(store.deleteCachedFeedCallCount, 1)
+		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
 	}
 	
 	func test_save_doesNotRequestCacheInsertionOnDeletionError(){
@@ -73,7 +83,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		let deletionError = anyNSError()
 		sut.saveItems(items)
 		store.completeDeletion(with: deletionError)
-		XCTAssertEqual(store.insertions.count, 0)
+		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
 	}
 	
 	func test_save_requestCacheInsertionWithTimeStampOnSuccessfulDeletion(){
@@ -84,9 +94,8 @@ class CacheFeedUseCaseTests: XCTestCase {
 		
 		sut.saveItems(items)
 		store.completeSuccessfully()
-		XCTAssertEqual(store.insertions.count, 1)
-		XCTAssertEqual(store.insertions.first?.items, items)
-		XCTAssertEqual(store.insertions.first?.timestamp, timestamp)
+		
+		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed,.insert(items, timestamp)])
 	}
 	
 	//MARK: - HELPERS
