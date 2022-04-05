@@ -16,8 +16,9 @@ class LocalFeedLoader {
 		self.currentDate = currentDate
 	}
 	
-	func saveItems(_ items: [FeedItem]) {
+	func saveItems(_ items: [FeedItem],completion: @escaping(Error?) -> Void) {
 		store.deleteCacheFeed { [unowned self] error in
+			completion(error)
 			if error == nil {
 				self.store.insert(items,timestamp: self.currentDate())
 			}
@@ -67,7 +68,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 	func test_save_requestsCacheDeletion(){
 		let (sut,store) = makeSUT()
 		let items = [uniqueItems(),uniqueItems()]
-		sut.saveItems(items)
+		sut.saveItems(items) { _ in }
 		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
 	}
 	
@@ -75,7 +76,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		let (sut,store) = makeSUT()
 		let items = [uniqueItems(),uniqueItems()]
 		let deletionError = anyNSError()
-		sut.saveItems(items)
+		sut.saveItems(items) { _ in }
 		store.completeDeletion(with: deletionError)
 		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
 	}
@@ -86,11 +87,32 @@ class CacheFeedUseCaseTests: XCTestCase {
 		let (sut,store) = makeSUT(currentDate: { timestamp })
 		let items = [uniqueItems(),uniqueItems()]
 		
-		sut.saveItems(items)
+		sut.saveItems(items) { _ in }
 		store.completeSuccessfully()
 		
 		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed,.insert(items, timestamp)])
 	}
+	
+	func test_save_failsOnDeletionError(){
+		let (sut,store) = makeSUT()
+		
+		let items = [uniqueItems(),uniqueItems()]
+		
+		let deletionError = anyNSError()
+		
+		var receivedError: Error?
+		
+		let exp = expectation(description: "wait for save completion")
+		sut.saveItems(items) { error in
+			receivedError = error
+			exp.fulfill()
+		}
+		store.completeDeletion(with: deletionError)
+		wait(for: [exp], timeout: 1.0)
+		
+		XCTAssertEqual(receivedError as NSError?, deletionError)
+	}
+	
 	
 	//MARK: - HELPERS
 	func makeSUT(currentDate: @escaping() -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
