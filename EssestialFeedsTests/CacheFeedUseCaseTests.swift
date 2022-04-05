@@ -15,21 +15,39 @@ class LocalFeedLoader {
 	}
 	
 	func saveItems(_ items: [FeedItem]) {
-		store.deleteCacheFeed()
+		store.deleteCacheFeed { [unowned self] error in
+			if error == nil {
+				self.store.insert(items)
+			}
+		}
 	}
 }
 
 //the feedstore is a helper class representing a framework side to help us define the abstract interface the use case needs for its collaborator , making sure not to leak framework details into the use case.
 class FeedStore {
+	typealias DeletionCompletion = (Error?) -> Void
+	
 	var deleteCachedFeedCallCount = 0
+	
 	var insertCallCount = 0
 	
-	func deleteCacheFeed(){
+	private var deletionCompletion = [DeletionCompletion]()
+	
+	func deleteCacheFeed(completion: @escaping DeletionCompletion){
 		deleteCachedFeedCallCount += 1
+		deletionCompletion.append(completion)
 	}
 	
 	func completeDeletion(with error:Error, at index: Int = 0) {
-		
+		deletionCompletion[index](error)
+	}
+	
+	func completeSuccessfully(at index: Int = 0) {
+		deletionCompletion[index](nil)
+	}
+	
+	func insert(_ items: [FeedItem]) {
+		insertCallCount += 1
 	}
 }
 
@@ -54,6 +72,15 @@ class CacheFeedUseCaseTests: XCTestCase {
 		sut.saveItems(items)
 		store.completeDeletion(with: deletionError)
 		XCTAssertEqual(store.insertCallCount, 0)
+	}
+	
+	func test_save_requestCacheInsertionOnSuccessfulDeletion(){
+		let (sut,store) = makeSUT()
+		let items = [uniqueItems(),uniqueItems()]
+		
+		sut.saveItems(items)
+		store.completeSuccessfully()
+		XCTAssertEqual(store.insertCallCount, 1)
 	}
 	
 	//MARK: - HELPERS
