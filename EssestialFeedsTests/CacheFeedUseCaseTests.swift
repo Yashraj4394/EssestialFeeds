@@ -22,9 +22,14 @@ class LocalFeedLoader {
 //the feedstore is a helper class representing a framework side to help us define the abstract interface the use case needs for its collaborator , making sure not to leak framework details into the use case.
 class FeedStore {
 	var deleteCachedFeedCallCount = 0
+	var insertCallCount = 0
 	
 	func deleteCacheFeed(){
 		deleteCachedFeedCallCount += 1
+	}
+	
+	func completeDeletion(with error:Error, at index: Int = 0) {
+		
 	}
 }
 
@@ -40,6 +45,15 @@ class CacheFeedUseCaseTests: XCTestCase {
 		let items = [uniqueItems(),uniqueItems()]
 		sut.saveItems(items)
 		XCTAssertEqual(store.deleteCachedFeedCallCount, 1)
+	}
+	
+	func test_save_doesNotRequestCacheInsertionOnDeletionError(){
+		let (sut,store) = makeSUT()
+		let items = [uniqueItems(),uniqueItems()]
+		let deletionError = anyNSError()
+		sut.saveItems(items)
+		store.completeDeletion(with: deletionError)
+		XCTAssertEqual(store.insertCallCount, 0)
 	}
 	
 	//MARK: - HELPERS
@@ -60,4 +74,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		return url
 	}
 	
+	private func anyNSError() -> NSError {
+		return NSError(domain: "any error", code: 1)
+	}
 }
