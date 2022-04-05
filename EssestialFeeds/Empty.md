@@ -27,3 +27,5 @@ func startLoading()
 func stopLoading()
 
 An ephemeral session configuration object is similar to a default session configuration (see default), except that the corresponding session object doesn’t store caches, credential stores, or any session-related data to disk. Instead, session-related data is stored in RAM. The only time an ephemeral session writes data to disk is when you tell it to write the contents of a URL to a file.
+
+By default, url loading system caches the url request and its requested data using the URLCache object.(Check the rules of default caching)
