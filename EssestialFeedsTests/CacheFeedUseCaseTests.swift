@@ -30,23 +30,25 @@ class FeedStore {
 
 class CacheFeedUseCaseTests: XCTestCase {
 	
-	//does not delete the cache feed upon creation
 	func test_init_DoesNotDeleteCacheUponCreation() {
-		let store = FeedStore()
-		_ = LocalFeedLoader(store: store)// to decouple the applciation from framework details ,we dont let frameworks dictate the use case intrefaces (eg. adding Codable requirement or Core Data managed contexts parameters). We do so by test driving the interfaces the use case needs for its collaborators, rather than defining the interface upfront to facilitate a specific framework implementatioon.
+		let (_,store) = makeSUT()
 		XCTAssertEqual(store.deleteCachedFeedCallCount, 0)
 	}
 	
 	func test_save_requestsCacheDeletion(){
-		let store = FeedStore()
-		let sut = LocalFeedLoader(store: store)
+		let (sut,store) = makeSUT()
 		let items = [uniqueItems(),uniqueItems()]
 		sut.saveItems(items)
 		XCTAssertEqual(store.deleteCachedFeedCallCount, 1)
 	}
-
 	
 	//MARK: - HELPERS
+	func makeSUT() -> (sut: LocalFeedLoader, store: FeedStore) {
+		let store = FeedStore()
+		let sut = LocalFeedLoader(store: store)
+		return (sut,store)
+	}
+	
 	func uniqueItems() -> FeedItem {
 		return FeedItem(id: UUID(), description: "anyDescription", location: "anyLocation", imageURL: anyURL())
 	}
