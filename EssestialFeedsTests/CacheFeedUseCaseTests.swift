@@ -8,44 +8,6 @@
 import XCTest
 import EssestialFeeds
 
-class LocalFeedLoader {
-	private let store: FeedStore
-	private let currentDate: () -> Date
-	init(store: FeedStore,currentDate: @escaping() -> Date) {
-		self.store = store
-		self.currentDate = currentDate
-	}
-	
-	func saveItems(_ items: [FeedItem],completion: @escaping(Error?) -> Void) {
-		store.deleteCacheFeed { [weak self] error in
-			guard let self = self else {return} // if the instane is deallocated then we just return.
-			
-			if let cacheDeletionError = error {
-				completion(cacheDeletionError)
-			} else {
-				self.cache(items,with: completion)
-			}
-		}
-	}
-	
-	private func cache(_ items: [FeedItem],with completion: @escaping(Error?) -> Void) {
-		store.insert(items,timestamp: currentDate()) { [weak self] error in
-			guard self != nil else {return}
-			
-			completion(error)
-		}
-	}
-}
-
-protocol FeedStore {
-	typealias DeletionCompletion = (Error?) -> Void
-	func deleteCacheFeed(completion: @escaping DeletionCompletion)
-	
-	typealias InsertionCompletion = (Error?) -> Void
-	func insert(_ items: [FeedItem],timestamp: Date,completion: @escaping InsertionCompletion)
-	
-}
-
 class CacheFeedUseCaseTests: XCTestCase {
 	
 	//does not delete cache upon creation
