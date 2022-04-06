@@ -18,14 +18,14 @@ class CacheFeedUseCaseTests: XCTestCase {
 	
 	func test_save_requestsCacheDeletion(){
 		let (sut,store) = makeSUT()
-		let items = [uniqueItems(),uniqueItems()]
+		let items = [uniqueItem(),uniqueItem()]
 		sut.saveItems(items) { _ in }
 		XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
 	}
 	
 	func test_save_doesNotRequestCacheInsertionOnDeletionError(){
 		let (sut,store) = makeSUT()
-		let items = [uniqueItems(),uniqueItems()]
+		let items = [uniqueItem(),uniqueItem()]
 		let deletionError = anyNSError()
 		sut.saveItems(items) { _ in }
 		store.completeDeletion(with: deletionError)
@@ -36,7 +36,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		//The current date/time is not a pure function(every time you create a date instance , it has a different value- current date/time). Instead of letting the Use Case produce the current date via impure Date.init() function directly, we can move this responsibility to a collaborator(a simple closure in this case) and inject it as a dependency. Then , we can easily control current date/time during tests.
 		let timestamp = Date()
 		let (sut,store) = makeSUT(currentDate: { timestamp })
-		let items = [uniqueItems(),uniqueItems()]
+		let items = [uniqueItem(),uniqueItem()]
 		let localItems = items.map {
 			LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)
 		}
@@ -49,7 +49,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 	func test_save_failsOnDeletionError(){
 		//		let (sut,store) = makeSUT()
 		//
-		//		let items = [uniqueItems(),uniqueItems()]
+		//		let items = [uniqueItem(),uniqueItem()]
 		//
 		//		let deletionError = anyNSError()
 		//
@@ -76,7 +76,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 	func test_save_failsOnInsertionError(){
 		//		let (sut,store) = makeSUT()
 		//
-		//		let items = [uniqueItems(),uniqueItems()]
+		//		let items = [uniqueItem(),uniqueItem()]
 		//
 		//		let insertionError = anyNSError()
 		//
@@ -105,7 +105,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 	func test_save_succeedsOnSuccessfulCacheInsertion(){
 		//		let (sut,store) = makeSUT()
 		
-		//		let items = [uniqueItems(),uniqueItems()]
+		//		let items = [uniqueItem(),uniqueItem()]
 		
 		//		var receivedError: Error?
 		//
@@ -132,7 +132,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		let store = FeedStoreSpy()
 		var sut : LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
 		var receivedError = [LocalFeedLoader.SaveResult]()
-		sut?.saveItems([uniqueItems()], completion: { error in
+		sut?.saveItems([uniqueItem()], completion: { error in
 			receivedError.append(error)
 		})
 		
@@ -147,7 +147,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		let store = FeedStoreSpy()
 		var sut : LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
 		var receivedError = [LocalFeedLoader.SaveResult]()
-		sut?.saveItems([uniqueItems()], completion: { error in
+		sut?.saveItems([uniqueItem()], completion: { error in
 			receivedError.append(error)
 		})
 		
@@ -174,7 +174,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 		var receivedError: Error?
 		
 		let exp = expectation(description: "wait for save completion")
-		sut.saveItems([uniqueItems()]) { error in
+		sut.saveItems([uniqueItem()]) { error in
 			receivedError = error
 			exp.fulfill()
 		}
@@ -225,7 +225,7 @@ class CacheFeedUseCaseTests: XCTestCase {
 	 }
  }
 	
-	func uniqueItems() -> FeedItem {
+	func uniqueItem() -> FeedItem {
 		return FeedItem(id: UUID(), description: "anyDescription", location: "anyLocation", imageURL: anyURL())
 	}
 	
