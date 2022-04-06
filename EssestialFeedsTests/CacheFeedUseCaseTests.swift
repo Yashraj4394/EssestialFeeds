@@ -19,13 +19,15 @@ class LocalFeedLoader {
 	func saveItems(_ items: [FeedItem],completion: @escaping(Error?) -> Void) {
 		store.deleteCacheFeed { [weak self] error in
 			guard let self = self else {return} // if the instane is deallocated then we just return.
-			if error == nil {
+			
+			if let cacheDeletionError = error {
+				completion(cacheDeletionError)
+			} else {
 				self.store.insert(items,timestamp: self.currentDate()) { [weak self] error in
 					guard self != nil else {return}
+					
 					completion(error)
 				}
-			} else {
-				completion(error)
 			}
 		}
 	}
