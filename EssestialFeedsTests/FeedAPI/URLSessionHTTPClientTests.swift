@@ -23,7 +23,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 	func test_getFromURL_performGETRequestWithURL(){
 		let exp = expectation(description: "wait for completion")
 		URLProtocolStub.observeRequests { request in
-			XCTAssertEqual(request.url, self.anyURL())
+			XCTAssertEqual(request.url, anyURL())
 			XCTAssertEqual(request.httpMethod, "GET")
 			
 			exp.fulfill()
@@ -86,17 +86,8 @@ class URLSessionHTTPClientTests: XCTestCase {
 		return sut
 	}
 	
-	private func anyURL() -> URL {
-		let url = URL(string: "https://www.a-url.com")!
-		return url
-	}
-	
 	private func anyData() -> Data {
 		return Data("any data".utf8)
-	}
-	
-	private func anyNSError() -> NSError {
-		return NSError(domain: "any error", code: 1)
 	}
 	
 	private func anyHTTPURLResponse() -> HTTPURLResponse {
