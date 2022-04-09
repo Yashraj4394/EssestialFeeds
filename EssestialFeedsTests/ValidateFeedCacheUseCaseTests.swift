@@ -10,6 +10,7 @@ import EssestialFeeds
 
 class ValidateFeedCacheUseCaseTests: XCTestCase {
 
+	//Local feed loader does not message store upon creation(before validating the cache feed)) 
 	func test_init_DoesNotMessageStoreUponCreation() {
 		let (_,store) = makeSUT()
 		XCTAssertEqual(store.receivedMessages, [])
