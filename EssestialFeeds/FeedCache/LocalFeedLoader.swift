@@ -7,22 +7,6 @@
 
 import Foundation
 
-public final class FeedCachePolicy {
-	
-	private init(){}
-	
-	private static let calender = Calendar(identifier: .gregorian)
-	
-	static var maxCacheAgeInDays: Int {
-		return 7
-	}
-	
-	static func validate(_ timestamp: Date, agaist date: Date) -> Bool {
-		guard let maxCacheAge = calender.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {return false}
-		return date < maxCacheAge
-	}
-}
-
 public final class LocalFeedLoader {
 	private let store: FeedStore
 	private let currentDate: () -> Date
