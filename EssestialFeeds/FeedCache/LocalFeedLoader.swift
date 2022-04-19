@@ -6,6 +6,9 @@
 //
 
 import Foundation
+/*
+ *** Core business logic ***
+ */
 
 public final class LocalFeedLoader {
 	private let store: FeedStore

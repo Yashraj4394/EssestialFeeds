@@ -7,6 +7,10 @@
 
 import Foundation
 
+/*
+ *** Boundry ***
+ */
+
 public enum RetrieveCachedFeedResult {
 	case empty
 	case found(feed: [LocalFeedImage],timestamp: Date)

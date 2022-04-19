@@ -1,0 +1,18 @@
+- Retrieve
+	- Emoty Cache
+	- Non Empty Cache returns data
+	- Non Empty Cache twice returns same data (no side effects)
+	- Error if applicable eg: Invalid Data
+
+- Insert
+	- To an empty cache
+	- To non empty cache overrides previous data with new data
+	- Error if applicable eg: no disk space, no write permission
+
+- Delete
+	- Empty cache does nothing (cache stays empty and does not fail)
+	- Non Empty cache leaves cache empty
+	- Error if appicable eg: no delete permission
+
+
+- Side Effects (eg : one thread is retrieving the data while the other is deleting) must run serially to avoid race conditions
