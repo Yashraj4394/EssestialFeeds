@@ -68,18 +68,18 @@ class CodableFeedStoreTests: XCTestCase {
 	//called before running each test
 	override func setUp() {
 		super.setUp()
-		print("Cache location :",FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.absoluteString)
+		print("Cache location :",FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.absoluteString)
 		
 		// removing data because if we have a crash in the test or we are using a breakpoint and stopping the next flow, then teardown is not called. Hence there will be artifacts from previous tests eg. the cache data
 		// (*** Tests are run randomly and not one after after ***)
-		try? FileManager.default.removeItem(at: storeURL())
+		try? FileManager.default.removeItem(at: testSpecificStoreURL())
 		
 	}
 	
 	//called after each test is completed
 	override func tearDown() {
 		super.tearDown()
-		try? FileManager.default.removeItem(at: storeURL())
+		try? FileManager.default.removeItem(at: testSpecificStoreURL())
 	}
 	
 	func test_retreive_deliversEmptyOnEmptyCache() {
@@ -154,13 +154,13 @@ class CodableFeedStoreTests: XCTestCase {
 	//MARK: - HELPERS
 	
 	private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
-		let sut = CodableFeedStore(storeURL: storeURL())
+		let sut = CodableFeedStore(storeURL: testSpecificStoreURL())
 		trackForMemoryLeaks(sut, file: file, line: line)
 		return sut
 	}
 	
-	private func storeURL() -> URL {
-		return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("image-feed.store")
+	private func testSpecificStoreURL() -> URL {
+		return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
 	}
 	
 }
