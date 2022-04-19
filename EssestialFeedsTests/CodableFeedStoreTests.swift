@@ -11,26 +11,49 @@ import EssestialFeeds
 class CodableFeedStore {
 	
 	private struct Cache: Codable {
-		let feed: [LocalFeedImage]
+		let feed: [CodableFeedImage]
 		let timestamp: Date
+		
+		var localFeed : [LocalFeedImage] {
+			return feed.map({ $0.local })
+		}
+	}
+	
+	private struct CodableFeedImage: Codable {
+		private let id: UUID
+		private let description: String?
+		private let location: String?
+		private let url: URL
+		
+		init(_ image: LocalFeedImage) {
+			id = image.id
+			description = image.description
+			location = image.location
+			url = image.url
+		}
+		
+		var local: LocalFeedImage {
+			return LocalFeedImage(id: id, description: description, location: location, url: url)
+		}
 	}
 	
 	private let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("image-feed.store")
 	
 	func retrieve(completion: @escaping FeedStore.RetrievalCompletion) {
 		guard let data = try? Data(contentsOf: storeURL) else {
-		return completion(.empty)
+			return completion(.empty)
 		}
 		
 		let decoder = JSONDecoder()
 		let cache = try! decoder.decode(Cache.self, from: data)
-		completion(.found(feed: cache.feed, timestamp: cache.timestamp))
+		completion(.found(feed: cache.localFeed, timestamp: cache.timestamp))
 	}
 	
 	func insert(_ feed: [LocalFeedImage],timestamp: Date,completion: @escaping FeedStore.InsertionCompletion) {
+		let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
 		
 		let encode = JSONEncoder()
-		let encoded = try! encode.encode(Cache(feed: feed, timestamp: timestamp))
+		let encoded = try! encode.encode(cache)
 		try! encoded.write(to: storeURL)
 		completion(nil)
 	}
@@ -49,6 +72,7 @@ class CodableFeedStoreTests: XCTestCase {
 		try? FileManager.default.removeItem(at: storeURL)
 		
 	}
+	
 	//called after each test is completed
 	override func tearDown() {
 		super.tearDown()
@@ -111,8 +135,8 @@ class CodableFeedStoreTests: XCTestCase {
 			sut.retrieve { retrievedResult in
 				switch retrievedResult {
 					case let .found(feed: receivedFeed, timestamp: receivedTimestamp):
-					XCTAssertEqual(receivedFeed, feed)
-					XCTAssertEqual(receivedTimestamp, timestamp)
+						XCTAssertEqual(receivedFeed, feed)
+						XCTAssertEqual(receivedTimestamp, timestamp)
 						
 					default:
 						XCTFail("Expected found result with feed \(feed) and timestamp \(timestamp) , got \(retrievedResult) instead")
@@ -123,5 +147,5 @@ class CodableFeedStoreTests: XCTestCase {
 		
 		wait(for: [exp], timeout: 1.0)
 	}
-
+	
 }
