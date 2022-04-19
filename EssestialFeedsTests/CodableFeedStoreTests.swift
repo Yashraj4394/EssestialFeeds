@@ -72,14 +72,15 @@ class CodableFeedStoreTests: XCTestCase {
 		
 		// removing data because if we have a crash in the test or we are using a breakpoint and stopping the next flow, then teardown is not called. Hence there will be artifacts from previous tests eg. the cache data
 		// (*** Tests are run randomly and not one after after ***)
-		try? FileManager.default.removeItem(at: testSpecificStoreURL())
+		setupEmptyStoreState()
 		
 	}
 	
 	//called after each test is completed
 	override func tearDown() {
 		super.tearDown()
-		try? FileManager.default.removeItem(at: testSpecificStoreURL())
+		
+		undoStoreSideEffects()
 	}
 	
 	func test_retreive_deliversEmptyOnEmptyCache() {
@@ -161,6 +162,18 @@ class CodableFeedStoreTests: XCTestCase {
 	
 	private func testSpecificStoreURL() -> URL {
 		return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
+	}
+	
+	private func setupEmptyStoreState() {
+		deleteStoreArtifacts()
+	}
+	
+	private func undoStoreSideEffects() {
+		deleteStoreArtifacts()
+	}
+	
+	private func deleteStoreArtifacts() {
+		try? FileManager.default.removeItem(at: testSpecificStoreURL())
 	}
 	
 }
