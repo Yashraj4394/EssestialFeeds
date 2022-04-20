@@ -23,7 +23,7 @@ class EssestialFeedsAPIEndToEndTests: XCTestCase {
 				XCTAssertEqual(imageFeed[5], expectedImage(at: 5))
 				XCTAssertEqual(imageFeed[6], expectedImage(at: 6))
 				XCTAssertEqual(imageFeed[7], expectedImage(at: 7))
-			
+				
 			case .failure(let error):
 				XCTFail("Expeccted successful feed result , got \(error) instead")
 				

@@ -29,3 +29,15 @@ func stopLoading()
 An ephemeral session configuration object is similar to a default session configuration (see default), except that the corresponding session object doesn’t store caches, credential stores, or any session-related data to disk. Instead, session-related data is stored in RAM. The only time an ephemeral session writes data to disk is when you tell it to write the contents of a URL to a file.
 
 By default, url loading system caches the url request and its requested data using the URLCache object.(Check the rules of default caching)
+
+** Side Effects **
+Side effects are changes to state outside the local scope.
+
+"In computer science, an operation, function or expression is said to have a side effect if it modifies some state variable value(s) outside its local environment, that is to say has an observable effect besides returning a value (the main effect) to the invoker of the operation."—https://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+Mutating some state in the DB/file system or updating the UI are examples of side-effects (mutating state outside the local scope). 
+
+A function has no side-effects if it only operates with the data passed as arguments - without any mutation outside the local scope.
+
+** Global Queue **
+DispatchQueue.global returns a shared concurrent queue - so it's suitable for operations that can run concurrently. For example, when you want to run expensive operations (such as sorting an array with hundreds of thousands of elements) concurrently in a background queue to prevent blocking the main thread

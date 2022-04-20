@@ -64,7 +64,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
 		let (sut,client) = makeSUT()
 		expect(sut, toCompleteWith: .success([]), when: {
 			//option 1
-//			let emptyListJSON = Data("{\"items\" : []}".utf8)
+			//			let emptyListJSON = Data("{\"items\" : []}".utf8)
 			//option 2
 			let emptyListJSON = makeItemJSON([])
 			client.complete(withStatusCode: 200, data: emptyListJSON)
