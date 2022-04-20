@@ -43,12 +43,13 @@ public class CodableFeedStore: FeedStore {
 	}
 	
 	///background queue but by default operations run serially
-	// every operation runs in a serial background queue so that we are not blocking the clients.
-	private let queue = DispatchQueue(label: "\(CodableFeedStore.self)", qos: .userInitiated)
+	 ///every operation runs in a serial background queue so that we are not blocking the clients.
+	private let queue = DispatchQueue(label: "\(CodableFeedStore.self)", qos: .userInitiated,attributes: .concurrent)
 	
 	public func retrieve(completion: @escaping RetrievalCompletion) {
 		
 		let storeURL = self.storeURL
+		//this function has no side effects so we can run it concurrently thats why barier flag is not userd
 		queue.async {
 			guard let data = try? Data(contentsOf: storeURL) else {
 				return completion(.empty)
@@ -67,7 +68,8 @@ public class CodableFeedStore: FeedStore {
 	
 	public func insert(_ feed: [LocalFeedImage],timestamp: Date,completion: @escaping InsertionCompletion) {
 		let storeURL = self.storeURL
-		queue.async {
+		//block the oprations that have side effects using the barrier flag
+		queue.async(flags:.barrier) {
 			let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
 			do {
 				let encode = JSONEncoder()
@@ -82,7 +84,8 @@ public class CodableFeedStore: FeedStore {
 	
 	public func deleteCacheFeed(completion: @escaping DeletionCompletion) {
 		let storeURL = self.storeURL
-		queue.async {
+		//block the oprations that have side effects using the barrier flag
+		queue.async(flags:.barrier) {
 			guard FileManager.default.fileExists(atPath: storeURL.path) else {
 				return completion(nil)
 			}
