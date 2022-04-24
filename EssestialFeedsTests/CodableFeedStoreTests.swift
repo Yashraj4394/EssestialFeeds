@@ -126,10 +126,6 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore{
 		assertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
 	}
 	
-	/*
-	 *** There is an issue with the cache deletion due to system configuration. Check this : https://academy.essentialdeveloper.com/courses/447455/lectures/10675368/comments/7321729
-	 noDeletePermissionURL
-	 */
 	func test_delete_emptiesPreviouslyInsertedCache() {
 		let sut = makeSUT()
 		

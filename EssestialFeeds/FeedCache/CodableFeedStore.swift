@@ -91,6 +91,7 @@ public class CodableFeedStore: FeedStore {
 			}
 			do {
 				try FileManager.default.removeItem(at: storeURL)
+				completion(nil)
 			} catch {
 				completion(error)
 			}
