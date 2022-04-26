@@ -11,19 +11,67 @@ import CoreData
 public final class CoreDataFeedStore: FeedStore {
 	
 	private let container: NSPersistentContainer
+	private let context: NSManagedObjectContext
 	
 	public init(storeURL: URL,bundle:Bundle = .main) throws {
 		container = try NSPersistentContainer.load(modelName: "FeedStore",url: storeURL, in: bundle)
 		
-		container.newBackgroundContext()
+		context = container.newBackgroundContext()
 	}
 	
 	public func retrieve(completion: @escaping RetrievalCompletion) {
-		completion(.empty)
+		let context = self.context
+		context.perform {
+			do {
+				
+				let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
+				
+				request.returnsObjectsAsFaults = false
+				
+				if let cache = try context.fetch(request).first {
+					
+					let localFeed = cache.feed.compactMap { ($0 as? ManagedFeedImage) }.map({
+						LocalFeedImage(id: $0.id, description: $0.imageDescription, location: $0.location, url: $0.url)
+					})
+					completion(.found(feed: localFeed, timestamp: cache.timestamp))
+					
+				} else {
+					completion(.empty)
+				}
+			} catch {
+				completion(.failure(error))
+			}
+		}
 	}
 	
 	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+		let context = self.context
 		
+		context.perform {
+			do {
+				let managedCache = ManagedCache(context:context)
+				
+				managedCache.timestamp = timestamp
+				
+				managedCache.feed = NSOrderedSet(array: feed.map({ local in
+					
+					let managedImage = ManagedFeedImage(context:context)
+					managedImage.id = local.id
+					managedImage.imageDescription = local.description
+					managedImage.location = local.location
+					managedImage.url = local.url
+					return managedImage
+					
+				}))
+				
+				try context.save()
+				
+				completion(nil)
+				
+			} catch {
+				completion(error)
+			}
+		}
 	}
 	
 	public func deleteCacheFeed(completion: @escaping DeletionCompletion) {
@@ -69,11 +117,13 @@ private extension NSManagedObjectModel {
 	}
 }
 
+@objc(ManagedCache)
 private class ManagedCache : NSManagedObject {
 	@NSManaged var timestamp: Date
 	@NSManaged var feed: NSOrderedSet
 }
 
+@objc(ManagedFeedImage)
 private class ManagedFeedImage: NSManagedObject {
 	@NSManaged var id: UUID
 	@NSManaged var imageDescription: String?
