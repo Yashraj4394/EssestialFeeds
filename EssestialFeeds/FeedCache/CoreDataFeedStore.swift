@@ -5,7 +5,6 @@
 //  Created by YashraJ Gujar on 25/04/22.
 //
 
-import EssestialFeeds
 import CoreData
 
 public final class CoreDataFeedStore: FeedStore {
