@@ -35,14 +35,9 @@ class EssestialFeedsCacheIntegrationTests: XCTestCase {
 	func test_load_deliversItemsSavedOnSeparateInstances(){
 		let sutToPerformSave = makeSUT()
 		let sutToPerformLoad = makeSUT()
-		
-		let saveExp = expectation(description: "Wait for save to complete")
 		let feed = uniqueImageFeed().models
-		sutToPerformSave.saveItems(feed) { saveError in
-			XCTAssertNil(saveError,"Exoected to save feed successfully")
-			saveExp.fulfill()
-		}
-		wait(for: [saveExp], timeout: 1.0)
+		
+		save(feed,with: sutToPerformSave)
 		
 		expect(sutToPerformLoad,toLoad: feed)
 	}
@@ -50,21 +45,11 @@ class EssestialFeedsCacheIntegrationTests: XCTestCase {
 	func test_save_overridesItemsSavedOnSeparateInstance(){
 		let sutToPerformFistSave = makeSUT()
 		let firstFeed = uniqueImageFeed().models
-		let saveExp1 = expectation(description: "Wait for save completion")
-		sutToPerformFistSave.saveItems(firstFeed) { saveError in
-			XCTAssertNil(saveError,"Expected to save feed successfully")
-			saveExp1.fulfill()
-		}
-		wait(for: [saveExp1], timeout: 1.0)
+		save(firstFeed,with: sutToPerformFistSave)
 		
 		let sutToPerformLastSave = makeSUT()
 		let latestFeed = uniqueImageFeed().models
-		let saveExp2 = expectation(description: "Wait for save completion")
-		sutToPerformLastSave.saveItems(latestFeed) { saveError in
-			XCTAssertNil(saveError,"Expected to save feed successfully")
-			saveExp2.fulfill()
-		}
-		wait(for: [saveExp2], timeout: 1.0)
+		save(latestFeed,with: sutToPerformLastSave)
 		
 		let sutToPerformLoad = makeSUT()
 		expect(sutToPerformLoad, toLoad: latestFeed)
@@ -99,6 +84,15 @@ class EssestialFeedsCacheIntegrationTests: XCTestCase {
 			exp.fulfill()
 		}
 		
+		wait(for: [exp], timeout: 1.0)
+	}
+	
+	func save(_ feed: [FeedImage],with loader: LocalFeedLoader,file: StaticString = #filePath, line: UInt = #line) {
+		let exp = expectation(description: "Wait for save to complete")
+		loader.saveItems(feed) { saveError in
+			XCTAssertNil(saveError,"Exoected to save feed successfully",file:file,line: line)
+			exp.fulfill()
+		}
 		wait(for: [exp], timeout: 1.0)
 	}
 	
