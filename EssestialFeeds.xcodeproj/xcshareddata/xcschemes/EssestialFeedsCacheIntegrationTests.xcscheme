@@ -9,14 +9,14 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0D52577526A5E35C00523931"
-               BuildableName = "EssestialFeeds.framework"
-               BlueprintName = "EssestialFeeds"
+               BlueprintIdentifier = "0DCBA557281A745B0038887E"
+               BuildableName = "EssestialFeedsCacheIntegrationTests.xctest"
+               BlueprintName = "EssestialFeedsCacheIntegrationTests"
                ReferencedContainer = "container:EssestialFeeds.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,7 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      enableThreadSanitizer = "YES"
       codeCoverageEnabled = "YES"
       onlyGenerateCoverageForSpecifiedTargets = "YES">
       <CodeCoverageTargets>
@@ -40,28 +39,6 @@
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0D52577E26A5E35C00523931"
-               BuildableName = "EssestialFeedsTests.xctest"
-               BlueprintName = "EssestialFeedsTests"
-               ReferencedContainer = "container:EssestialFeeds.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0DFC0F3127F1EBF600BB4AA0"
-               BuildableName = "EssestialFeedsAPIEndToEndTests.xctest"
-               BlueprintName = "EssestialFeedsAPIEndToEndTests"
-               ReferencedContainer = "container:EssestialFeeds.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO"
             testExecutionOrdering = "random">
@@ -95,9 +72,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0D52577526A5E35C00523931"
-            BuildableName = "EssestialFeeds.framework"
-            BlueprintName = "EssestialFeeds"
+            BlueprintIdentifier = "0DCBA557281A745B0038887E"
+            BuildableName = "EssestialFeedsCacheIntegrationTests.xctest"
+            BlueprintName = "EssestialFeedsCacheIntegrationTests"
             ReferencedContainer = "container:EssestialFeeds.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
