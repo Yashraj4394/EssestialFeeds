@@ -119,9 +119,8 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
 			"description": description,
 			"location": location,
 			"image": imageURL.absoluteString,
-		].reduce(into: [String: Any]()) { (acc , e) in
-			if let value = e.value { acc[e.key] = value}
-		} //reduce will remove optional values and create a new dictionery
+		].compactMapValues{ $0 }
+		//will remove optional values and create a new dictionery
 		
 		return (item,json)
 	}
