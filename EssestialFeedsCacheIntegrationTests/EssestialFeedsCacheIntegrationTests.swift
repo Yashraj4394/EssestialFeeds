@@ -11,6 +11,21 @@ import EssestialFeeds
 ///Idea is to integrate all the cache model objects and see how they behave in collaboration with real instances of production types.
 class EssestialFeedsCacheIntegrationTests: XCTestCase {
 	
+	//called before running each test
+	override func setUp() {
+		super.setUp()
+		// removing data because if we have a crash in the test or we are using a breakpoint and stopping the next flow, then teardown is not called. Hence there will be artifacts from previous tests eg. the cache data
+		// (*** Tests are run randomly and not one after after ***)
+		setupEmptyStoreState()
+	}
+	
+	//called after each test is completed
+	override func tearDown() {
+		super.tearDown()
+		
+		undoStoreSideEffects()
+	}
+	
 	func test_load_deliversNoItemsOnEmptyCache(){
 		let sut = makeSUT()
 		
@@ -47,5 +62,17 @@ class EssestialFeedsCacheIntegrationTests: XCTestCase {
 	
 	private func cachesDirectory() -> URL {
 		return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+	}
+	
+	private func setupEmptyStoreState() {
+		deleteStoreArtifacts()
+	}
+	
+	private func undoStoreSideEffects() {
+		deleteStoreArtifacts()
+	}
+	
+	private func deleteStoreArtifacts() {
+		try? FileManager.default.removeItem(at: testSpecificStoreURL())
 	}
 }
