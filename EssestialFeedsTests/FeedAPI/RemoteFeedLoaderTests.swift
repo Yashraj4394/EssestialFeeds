@@ -64,7 +64,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
 		let (sut,client) = makeSUT()
 		expect(sut, toCompleteWith: .success([]), when: {
 			//option 1
-//			let emptyListJSON = Data("{\"items\" : []}".utf8)
+			//			let emptyListJSON = Data("{\"items\" : []}".utf8)
 			//option 2
 			let emptyListJSON = makeItemJSON([])
 			client.complete(withStatusCode: 200, data: emptyListJSON)
@@ -111,9 +111,9 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
 		return (sut,client)
 	}
 	
-	private func makeItem(id: UUID,description: String? = nil,location: String? = nil,imageURL: URL) -> (model: FeedItem,json: [String:Any]) {
+	private func makeItem(id: UUID,description: String? = nil,location: String? = nil,imageURL: URL) -> (model: FeedImage,json: [String:Any]) {
 		
-		let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
+		let item = FeedImage(id: id, description: description, location: location, url: imageURL)
 		let json = [
 			"id": id.uuidString,
 			"description": description,
