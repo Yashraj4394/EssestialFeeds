@@ -144,14 +144,14 @@ extension FeedStoreSpecs where Self: XCTestCase {
 		return deletionError
 	}
 	
-	func expect(_ sut: FeedStore,toRetrieveTwice expectedResult: RetrieveCachedFeedResult,file: StaticString = #filePath, line: UInt = #line) {
+	func expect(_ sut: FeedStore,toRetrieveTwice expectedResult: FeedStore.RetrievalResult,file: StaticString = #filePath, line: UInt = #line) {
 		
 		expect(sut, toRetrieve: expectedResult,file: file,line: line)
 		
 		expect(sut, toRetrieve: expectedResult,file: file,line: line)
 	}
 	
-	func expect(_ sut: FeedStore,toRetrieve expectedResult: RetrieveCachedFeedResult,file: StaticString = #filePath, line: UInt = #line) {
+	func expect(_ sut: FeedStore,toRetrieve expectedResult: FeedStore.RetrievalResult,file: StaticString = #filePath, line: UInt = #line) {
 		let exp = expectation(description: "wait for cache retrieval")
 		
 		sut.retrieve { retrivedResult in
