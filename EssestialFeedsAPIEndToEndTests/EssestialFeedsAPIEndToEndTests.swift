@@ -80,11 +80,11 @@ class EssestialFeedsAPIEndToEndTests: XCTestCase {
 		return URL(string: "https://url-\(index + 1).com")!
 	}
 	
-	private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> LoadFeedResult? {
+	private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> FeedLoader.Result? {
 		let testServerURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
 		let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
 		
-		var receivedResult : LoadFeedResult?
+		var receivedResult : FeedLoader.Result?
 		let loader = RemoteFeedLoader(url: testServerURL, client: client)
 		
 		trackForMemoryLeaks(client,file: file, line: line)
