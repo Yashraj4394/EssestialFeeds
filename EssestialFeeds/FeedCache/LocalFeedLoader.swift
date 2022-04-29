@@ -21,25 +21,25 @@ public final class LocalFeedLoader {
 }
 
 extension LocalFeedLoader {
-	public typealias SaveResult = Error?
+	public typealias SaveResult = Result<Void,Error>
 	
 	public func saveItems(_ feed: [FeedImage],completion: @escaping(SaveResult) -> Void) {
-		store.deleteCacheFeed { [weak self] error in
+		store.deleteCacheFeed { [weak self] deletionResult in
 			guard let self = self else {return} // if the instane is deallocated then we just return.
-			
-			if let cacheDeletionError = error {
-				completion(cacheDeletionError)
-			} else {
-				self.cache(feed,with: completion)
+			switch deletionResult {
+				case .success:
+					self.cache(feed,with: completion)
+				case .failure(let error):
+					completion(.failure(error))
 			}
 		}
 	}
 	
 	private func cache(_ feed: [FeedImage],with completion: @escaping(SaveResult) -> Void) {
-		store.insert(feed.toLocal(),timestamp: currentDate()) { [weak self] error in
+		store.insert(feed.toLocal(),timestamp: currentDate()) { [weak self] instertionError in
 			guard self != nil else {return}
+			completion(instertionError)
 			
-			completion(error)
 		}
 	}
 }

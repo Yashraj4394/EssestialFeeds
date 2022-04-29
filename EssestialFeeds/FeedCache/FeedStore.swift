@@ -14,13 +14,13 @@ import Foundation
 public typealias CacheFeed = (feed: [LocalFeedImage],timestamp: Date)
 
 public protocol FeedStore {
-	typealias DeletionResult = Error?
+	typealias DeletionResult = Result<Void,Error>
 	typealias DeletionCompletion = (DeletionResult) -> Void
 	
 	typealias RetrievalResult = Result<CacheFeed?,Error>
 	typealias RetrievalCompletion = (RetrievalResult) -> Void
 	
-	typealias InsertionResult = Error?
+	typealias InsertionResult = Result<Void,Error>
 	typealias InsertionCompletion = (InsertionResult) -> Void
 	
 	///The completion handler can be invoked in any thread.
