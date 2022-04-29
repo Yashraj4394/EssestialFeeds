@@ -21,25 +21,42 @@ public final class CoreDataFeedStore: FeedStore {
 	public func retrieve(completion: @escaping RetrievalCompletion) {
 		
 		perform { context in
-			do {
-				
-				if let cache = try ManagedCache.find(in: context) {
+			//caching throws error. So there is no need for catch block as it will be automatically wraps it in a failure case of Result type.//Also there is no need to wrap completion in success/failure type. Catching automatically wraps data in success/failure case
+			/*
+			 
+			 // *** A ***
+			 completion(Result(catching: {
+				 
+				 // *** OPTION 1 ***
+					if let cache = try ManagedCache.find(in: context) {
+						return (.some(CacheFeed(feed: cache.locaFeed, timestamp: cache.timestamp)))
+
+					} else {
+						return (.none)
+					}
+
+					// *** OPTION 2 ***
 					
-					completion(.found(feed: cache.locaFeed, timestamp: cache.timestamp))
-					
-				} else {
-					completion(.empty)
+					try ManagedCache.find(in: context).map({ cache in
+						return CacheFeed(feed: cache.locaFeed, timestamp: cache.timestamp)
+					})
+			 }))
+		*/
+			 
+			// **** B *****
+			completion(Result {
+				try ManagedCache.find(in: context).map {
+					return CacheFeed(feed: $0.locaFeed, timestamp: $0.timestamp)
 				}
-			} catch {
-				completion(.failure(error))
-			}
+			})
 		}
 	}
 	
 	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
 		
 		perform { context in
-			do {
+			
+			completion(Result {
 				let managedCache = try ManagedCache.newUniqueInstance(in: context)
 				
 				managedCache.timestamp = timestamp
@@ -47,24 +64,17 @@ public final class CoreDataFeedStore: FeedStore {
 				managedCache.feed = ManagedFeedImage.images(from: feed, in: context)
 				
 				try context.save()
-				
-				completion(nil)
-				
-			} catch {
-				completion(error)
-			}
+			})
+			
 		}
 	}
 	
 	public func deleteCacheFeed(completion: @escaping DeletionCompletion) {
 		
 		perform { context in
-			do {
+			completion(Result {
 				try ManagedCache.find(in: context).map(context.delete).map(context.save)
-				completion(nil)
-			} catch {
-				completion(error)
-			}
+			})
 		}
 	}
 	

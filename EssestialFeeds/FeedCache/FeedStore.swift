@@ -11,16 +11,17 @@ import Foundation
  *** Boundry ***
  */
 
-public enum RetrieveCachedFeedResult {
-	case empty
-	case found(feed: [LocalFeedImage],timestamp: Date)
-	case failure(Error)
-}
+public typealias CacheFeed = (feed: [LocalFeedImage],timestamp: Date)
 
 public protocol FeedStore {
-	typealias DeletionCompletion = (Error?) -> Void
-	typealias RetrievalCompletion = (RetrieveCachedFeedResult) -> Void
-	typealias InsertionCompletion = (Error?) -> Void
+	typealias DeletionResult = Result<Void,Error>
+	typealias DeletionCompletion = (DeletionResult) -> Void
+	
+	typealias RetrievalResult = Result<CacheFeed?,Error>
+	typealias RetrievalCompletion = (RetrievalResult) -> Void
+	
+	typealias InsertionResult = Result<Void,Error>
+	typealias InsertionCompletion = (InsertionResult) -> Void
 	
 	///The completion handler can be invoked in any thread.
 	///Clients are responsible to dispatch to appropriate threads, if needed.
