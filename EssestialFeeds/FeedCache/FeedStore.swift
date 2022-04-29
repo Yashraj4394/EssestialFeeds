@@ -11,14 +11,7 @@ import Foundation
  *** Boundry ***
  */
 
-public struct CacheFeed: Equatable {
-	public let feed: [LocalFeedImage]
-	public let timestamp: Date
-	public init(feed: [LocalFeedImage],timestamp: Date) {
-		self.feed = feed
-		self.timestamp = timestamp
-	}
-}
+public typealias CacheFeed = (feed: [LocalFeedImage],timestamp: Date)
 
 public protocol FeedStore {
 	typealias DeletionCompletion = (Error?) -> Void
