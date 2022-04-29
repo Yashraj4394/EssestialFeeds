@@ -11,14 +11,18 @@ import Foundation
  *** Boundry ***
  */
 
-public enum CacheFeed {
-	case empty
-	case found(feed: [LocalFeedImage],timestamp: Date)
+public struct CacheFeed: Equatable {
+	public let feed: [LocalFeedImage]
+	public let timestamp: Date
+	public init(feed: [LocalFeedImage],timestamp: Date) {
+		self.feed = feed
+		self.timestamp = timestamp
+	}
 }
 
 public protocol FeedStore {
 	typealias DeletionCompletion = (Error?) -> Void
-	typealias RetrievalResult = Result<CacheFeed,Error>
+	typealias RetrievalResult = Result<CacheFeed?,Error>
 	typealias RetrievalCompletion = (RetrievalResult) -> Void
 	typealias InsertionCompletion = (Error?) -> Void
 	
