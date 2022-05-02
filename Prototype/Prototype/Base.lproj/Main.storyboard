@@ -37,7 +37,7 @@
                                             <rect key="frame" x="16" y="17" width="343" height="546"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="hTE-x9-Gdm" userLabel="Location Container">
-                                                    <rect key="frame" x="0.0" y="0.0" width="79" height="68"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="68"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WkT-Qw-gMd" userLabel="Pin Container">
                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="50"/>
@@ -56,8 +56,8 @@
                                                                 <constraint firstAttribute="width" constant="10" id="fLo-1B-Bi3"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location,Location" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="70" translatesAutoresizingMaskIntoConstraints="NO" id="Ddd-hF-cgW">
-                                                            <rect key="frame" x="16" y="0.0" width="63" height="36"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location,Location" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddd-hF-cgW">
+                                                            <rect key="frame" x="16" y="0.0" width="327" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -94,6 +94,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="hTE-x9-Gdm" firstAttribute="width" secondItem="tGs-gj-CFN" secondAttribute="width" id="MV0-Zl-ecH"/>
                                                 <constraint firstItem="Gxf-ly-P6a" firstAttribute="width" secondItem="tGs-gj-CFN" secondAttribute="width" id="zTH-LF-tmp"/>
                                             </constraints>
                                         </stackView>
