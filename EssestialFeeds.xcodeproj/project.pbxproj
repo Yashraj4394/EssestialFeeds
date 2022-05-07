@@ -42,6 +42,7 @@
 		0DCBA565281A8E5B0038887E /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D759C69280134A5000B5481 /* FeedCacheTestHelpers.swift */; };
 		0DCBA566281A8E630038887E /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D759C6B280135E3000B5481 /* SharedTestHelpers.swift */; };
 		0DCBA5BC28222B6A0038887E /* EssentialFeedsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCBA5B228222B6A0038887E /* EssentialFeedsiOS.framework */; };
+		0DCBA5CA28261AB40038887E /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCBA5C928261AB40038887E /* FeedViewControllerTests.swift */; };
 		0DD254E82811B2DB00F168B6 /* FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD254E72811B2DA00F168B6 /* FeedStoreSpecs.swift */; };
 		0DD254EA2811B3D400F168B6 /* XCTestCase+FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD254E92811B3D400F168B6 /* XCTestCase+FeedStoreSpecs.swift */; };
 		0DD254EC2811BA6B00F168B6 /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD254EB2811BA6B00F168B6 /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift */; };
@@ -126,6 +127,7 @@
 		0DCBA55A281A745B0038887E /* EssestialFeedsCacheIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssestialFeedsCacheIntegrationTests.swift; sourceTree = "<group>"; };
 		0DCBA5B228222B6A0038887E /* EssentialFeedsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeedsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DCBA5BB28222B6A0038887E /* EssentialFeedsiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeedsiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0DCBA5C928261AB40038887E /* FeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerTests.swift; sourceTree = "<group>"; };
 		0DD254E72811B2DA00F168B6 /* FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpecs.swift; sourceTree = "<group>"; };
 		0DD254E92811B3D400F168B6 /* XCTestCase+FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpecs.swift"; sourceTree = "<group>"; };
 		0DD254EB2811BA6B00F168B6 /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FailableRetrieveFeedStoreSpecs.swift"; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		0DCBA5BF28222B6A0038887E /* EssentialFeedsiOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				0DCBA5C928261AB40038887E /* FeedViewControllerTests.swift */,
 			);
 			path = EssentialFeedsiOSTests;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 					};
 					0DCBA5BA28222B6A0038887E = {
 						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
 					};
 					0DFC0F3127F1EBF600BB4AA0 = {
 						CreatedOnToolsVersion = 13.1;
@@ -692,6 +696,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DCBA5CA28261AB40038887E /* FeedViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1067,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F94HS5DCZL;
@@ -1077,6 +1083,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1086,6 +1093,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F94HS5DCZL;
