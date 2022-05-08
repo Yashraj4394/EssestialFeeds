@@ -74,6 +74,16 @@ final class FeedViewControllerTests: XCTestCase {
 		XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
 	}
 	
+	func test_viewDidLoad_hidesLoadingIndicatorOnLoaderCompletion() {
+		
+		let (sut , loader) = makeSUT()
+		
+		sut.loadViewIfNeeded()
+		
+		loader.completeFeedLoading()
+		
+		XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+	}
 	//MARK: - HELPERS
 	
 	func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController,loader: LoaderSpy) {
