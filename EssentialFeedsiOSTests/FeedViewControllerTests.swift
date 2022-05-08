@@ -9,7 +9,7 @@ import XCTest
 import UIKit
 import EssestialFeeds
 
-class FeedViewController: UIViewController {
+class FeedViewController: UITableViewController {
 	
 	private var loader: FeedLoader?
 	
@@ -21,6 +21,12 @@ class FeedViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		refreshControl = UIRefreshControl()
+		refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+		load()
+	}
+	
+	@objc private func load(){
 		loader?.load(completion: { result in
 			
 		})
@@ -44,6 +50,21 @@ final class FeedViewControllerTests: XCTestCase {
 		XCTAssertEqual(loader.loadingCount, 1)
 	}
 	
+	func test_pullToRefresh_loadsFeed() {
+		let (sut , loader) = makeSUT()
+		
+		sut.loadViewIfNeeded()
+		
+		//adding this twice as user can pull to refresh twice
+		sut.refreshControl?.simulatePullToRefresh()
+		
+		XCTAssertEqual(loader.loadingCount, 2)
+		
+		sut.refreshControl?.simulatePullToRefresh()
+		
+		XCTAssertEqual(loader.loadingCount, 3)
+	}
+	
 	//MARK: - HELPERS
 	
 	func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController,loader: LoaderSpy) {
@@ -64,4 +85,14 @@ final class FeedViewControllerTests: XCTestCase {
 		}
 	}
 	
+}
+
+private extension UIRefreshControl {
+	func simulatePullToRefresh() {
+		allTargets.forEach({ target in
+			actions(forTarget: target, forControlEvent: .valueChanged)?.forEach({ value in
+				(target as NSObject).perform(Selector(value))
+			})
+		})
+	}
 }
