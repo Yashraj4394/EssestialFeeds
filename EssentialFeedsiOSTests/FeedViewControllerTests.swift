@@ -7,20 +7,23 @@
 
 import XCTest
 import UIKit
+import EssestialFeeds
 
 class FeedViewController: UIViewController {
 	
-	private var loader: FeedViewControllerTests.LoaderSpy?
+	private var loader: FeedLoader?
 	
 	//using convenience init since we dont need any custom initialization.This way we dont need to implement the UIViewController's required initialisers
-	convenience init(loader: FeedViewControllerTests.LoaderSpy) {
+	convenience init(loader: FeedLoader) {
 		self.init()
 		self.loader = loader
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		loader?.load()
+		loader?.load(completion: { result in
+			
+		})
 	}
 	
 }
@@ -45,11 +48,12 @@ final class FeedViewControllerTests: XCTestCase {
 	
 	//MARK: - HELPERS
 	
-	class LoaderSpy {
+	class LoaderSpy: FeedLoader {
+		
 		private(set) var loadingCount = 0
 		
-		func load(){
-		loadingCount += 1
+		func load(completion: @escaping (FeedLoader.Result) -> Void) {
+			loadingCount += 1
 		}
 	}
 	
